@@ -1,7 +1,7 @@
 from django.contrib import auth
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 

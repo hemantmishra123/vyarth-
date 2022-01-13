@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import login, logout
-from django.core.urlresolvers import reverse_lazy,reverse
+from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView,TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from myapp.models import SubmitWaste,CollectWaste
@@ -40,7 +40,7 @@ class ColView(CreateView):
 
 class Result(TemplateView):
     template_name='result.html'
-geolocator = Nominatim(user_agent="specify_your_app_name_here")
+geolocator = Nominatim(user_agent="myapp")
 def new_view(request):
     form=forms.CollectWasteForm()
     if request.method=='POST':
@@ -68,6 +68,7 @@ def new_view(request):
                 rt.append(temp)
             dist=[]
             for ele in list1:
+
                 tup2=(ele.latitude,ele.longitude)
                 dist.append(distance.distance(tup1, tup2).km)
             print(dist)
