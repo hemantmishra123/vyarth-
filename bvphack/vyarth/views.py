@@ -12,13 +12,12 @@ from operator import itemgetter
 from tabulate import tabulate
 
 class HomePage(TemplateView):
-    template_name = "index.html"
+    template_name = "test.html" 
 
 class SignUp(CreateView):
     form_class = forms.UserCreateForm
     success_url = reverse_lazy("login")
     template_name = "signup.html"
-
 
 class GenView(CreateView):
     model = SubmitWaste
