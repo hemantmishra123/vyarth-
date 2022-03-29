@@ -22,6 +22,7 @@ class SubmitWaste(models.Model):
          ('organic','Organic')
         ]
     contact=models.IntegerField(null=True)
+    number=models.IntegerField(null=True)
 
     COMMUNITY_CHOICES= [
             ('household', 'Household'),
@@ -33,6 +34,7 @@ class SubmitWaste(models.Model):
     typeofwaste= models.CharField(max_length=1024,choices=WASTE_CHOICES,default='organic')
     #typeofwaste=models.CharField(max_length=1024)
     address=models.TextField(max_length=1024, blank=True)
+    email = models.EmailField( blank=False, max_length=255, unique=True, null=True,)
     quantityofwaste=models.IntegerField()
 
 class CollectWaste(models.Model):
@@ -44,4 +46,6 @@ class CollectWaste(models.Model):
         ]
     typerequired=models.CharField(max_length=1024,choices=WASTE_CHOICES,default='plastic')
     contact=models.IntegerField(null=True)
+    email = models.EmailField( blank=False, max_length=255, unique=True, null=True,)
     address=models.TextField(max_length=1024, blank=True)
+    

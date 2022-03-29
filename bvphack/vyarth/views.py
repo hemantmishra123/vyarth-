@@ -10,9 +10,12 @@ from geopy.geocoders import Nominatim
 from geopy import distance
 from operator import itemgetter
 from tabulate import tabulate
+from django.core.mail import send_mail
+
+from django.conf import settings
 
 class HomePage(TemplateView):
-    template_name = "test.html" 
+    template_name = "index.html" 
 
 class SignUp(CreateView):
     form_class = forms.UserCreateForm
@@ -26,19 +29,30 @@ class GenView(CreateView):
     template_name = "SignupG.html"
     #success_url
     #template_name='thankyou.html'
+def send_data(request):
+    form=forms.SubmitWasteForm()
+    if request.method=='POST':
+        #it is the rendering objects for data 
+        form=forms.SubmitWasteForm(request.POST)
+        if form.is_valid():
+            email=form.cleaned_data['email']
+            print("hello wolrld")
+        return render(request,'')
+    return render(request,'SignupG.html',{'form':form})
+
+
 
 class ColView(CreateView):
     model = CollectWaste
     form_class= forms.CollectWasteForm
     success_url = reverse_lazy("home")
     template_name = "SignupC.html"
-
-
     #success_url
     #template_name='thankyou.html'
 
 class Result(TemplateView):
     template_name='result.html'
+
 geolocator = Nominatim(user_agent="myapp")
 def new_view(request):
     form=forms.CollectWasteForm()
@@ -46,38 +60,39 @@ def new_view(request):
         form=forms.CollectWasteForm(request.POST)
         if form.is_valid():
             print("hello")
-            a=form.cleaned_data['typerequired']
-            b=form.cleaned_data['address']
-            b=geolocator.geocode(b)
-            lat=b.latitude
-            lon=b.longitude
-            tup1=(lat,lon)
-            print(lat,lon,"hello")
-            print(a)
-            v=SubmitWaste.objects.filter(typeofwaste=a).values_list()
-            print(v)
-            list1=[]
-            rt=[]
-            for i in v:
-                temp=[]
-                temp.append(i[4])
-                temp.append(i[5])
-                print(i[4])
-                list1.append(geolocator.geocode(i[4],timeout=10))
-                rt.append(temp)
-            dist=[]
-            for ele in list1:
 
-                tup2=(ele.latitude,ele.longitude)
-                dist.append(distance.distance(tup1, tup2).km)
-            print(dist)
-            j=0
-            for m in dist:
-                rt[j].append(m)
-                j=j+1
+            #send this information to this email value 
+            email=form.cleaned_data['email']
+            dataset=SubmitWaste.objects.filter(email=email).values_list()
+            li=[]
+            for i in dataset:
+                li.append(i[2])
+                li.append(i[4])
+                li.append(i[5])
 
-            rt=sorted(rt, key=itemgetter(2))
-            print(rt)
+            item=li[0]
+            item2=li[1]
+            item3=li[2]
+            string=item+item2+item3
 
-        return render(request,'result.html',{'val':rt})
+            send_mail(
+                'waste Mangment your data with us ',
+                string,
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+
+            )
+            message="form Submitted, We will get in touch to you shortly!!"
+            #v=SubmitWaste.objects.filter(typeofwaste=a).values_list()
+            #print(v)
+
+        return render(request,'thankyou.html',{'message':message})
     return render(request,'SignupC.html',{'form':form})
+
+def send_data(request):
+    form=forms.SubmitWasteForm()
+    if request.method=='POST':
+        value=request.POST["value"]
+        v=SubmitWaste.objects.filter(email=email).values_list()
+

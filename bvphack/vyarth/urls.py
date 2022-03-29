@@ -28,5 +28,6 @@ urlpatterns = [
     url(r"^cview/$", views.ColView.as_view(), name="cview"),
     url(r'^result/$',views.Result.as_view(),name='result'),
     url(r"^new_view/$", views.new_view, name="new_view"),
+    url(r"^send_data/$", views.send_data, name="send_data"),
 
 ]

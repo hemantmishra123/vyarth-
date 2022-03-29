@@ -17,10 +17,10 @@ class UserCreateForm(UserCreationForm):
 class SubmitWasteForm(forms.ModelForm):
     class Meta:
         model= SubmitWaste
-        fields = ['contact','communityName','typeofwaste','quantityofwaste','address']
+        fields = ['contact','number','communityName','typeofwaste','quantityofwaste','email','address']
 
 class CollectWasteForm(forms.ModelForm):
 
     class Meta:
         model= CollectWaste
-        fields = ['typerequired','address','contact']
+        fields = ['email']

@@ -25,6 +25,7 @@ SECRET_KEY = '(9ha3+&yn!2vg7-=@9g1ru$z(hu85r6*4q7n*72#$)l!6i6#7q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ALLOWED_HOSTS = []
 
@@ -127,3 +128,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 django_heroku.settings(locals())
+
+#Email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="1809510031@coet.in"
+EMAIL_HOST_PASSWORD="Hemant@coet1234"
+
+#EMAIL_USE_SSL
+
+
